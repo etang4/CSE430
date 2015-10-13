@@ -27,9 +27,6 @@ Further warning: Bugs in the Q routines have been the #1 cause for strange error
 /*
  * Function definitions
  */
-
-TCB_t *header; //Confused whether we need a head pointer. (Read more in Project #1).
-
 //Create a new Queue element
 TCB_t *NewItem(){
 	TCB_t *nnode;
@@ -40,24 +37,32 @@ TCB_t *NewItem(){
 	return nnode;
 }
 
-//adds a queue item, pointed to by “item”, to the queue pointed to by head.
-void InitQueue(TCB_t *head){
-	TCB_t *emptyQueue = NewItem();
-	head = emptyQueue;
+//creates a empty queue, pointed to by the variable head
+TCB_t *InitQueue(TCB_t *head){
+	if(!head){
+		head = (TCB_t *) malloc(sizeof(TCB_t));
+		memset(head, 0, sizeof(TCB_t));
+	}
+	else
+		puts("Head is not NULL!\nReturning head unchanged.");
+
+	return head;
 }
 
 //Adds an item to the queue
-void AddQueue(TCB_t *head, TCB_t *item){
+TCB_t *AddQueue(TCB_t *head, TCB_t *item){
 	//If queue is empty.
-	if (!head) {
+	if(!head){
 		head = item;
 	}
-	else {
+	else{
 		head->prev->next = item;
 		item->prev = head->prev;
 	}
 	head->prev = item;
 	item->next = head;
+
+	return head;
 }
 
 // deletes an item from head and returns a pointer to the deleted item
@@ -75,14 +80,13 @@ TCB_t *DelQueue(TCB_t *head){
 		head->prev = deletedElement->prev;
 		deletedElement->prev->next = head;
 	}
-	//header = head;
+
 	return deletedElement;
 }
 
 //equivalent to AddQ(&head, DeleteQ(&head)), but is simpler to use and more efficient to implement
-void RotateQ(TCB_t *head){
+TCB_t *RotateQ(TCB_t *head){
 	head = head->next;
-	//header = head;
 }
 
 //Free an item's space for future use
