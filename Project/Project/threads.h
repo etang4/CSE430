@@ -10,6 +10,7 @@
  * 		adjustments (like adding a preprocessor guard) based off of my personal preferences.
  * 		Please contact the authors with any questions.
  ****************************************************************************************************/
+#include <stdlib.h>
 #include "q.h"
 
 /*
