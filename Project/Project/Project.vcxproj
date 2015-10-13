@@ -118,6 +118,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="q.h" />
+    <ClInclude Include="tcb.h" />
+    <ClInclude Include="threads.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="thread_test.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

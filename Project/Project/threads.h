@@ -26,7 +26,7 @@ void start_thread(void (*function)(void))
 	unsigned int *stack;
 	stack = (int *) malloc(sizeof(STACK_SIZE));
 	TCB_t *nTCB;
-	nTCB = (TCB *) malloc(sizeof(TCB_t));
+	nTCB = (TCB_t *) malloc(sizeof(TCB_t));
 	init_TCB(nTCB, function, stack, STACK_SIZE);
 	AddQueue(RunQ, nTCB);
 }
@@ -34,7 +34,7 @@ void start_thread(void (*function)(void))
 void run(){
 	ucontext_t parent;     // get a place to store the main context, for faking
 	getcontext(&parent);   // magic sauce
-	swapcontext(&parent, &(RunQ->conext));  // start the first thread
+	swapcontext(&parent, &(RunQ->context));  // start the first thread
 }
 
 void yield(){
