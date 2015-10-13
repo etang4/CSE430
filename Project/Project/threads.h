@@ -4,11 +4,13 @@
  * Name: 	Easa El Sirgany 1001361972 eelsirga@asu.edu
  * 		Eric Tang 1206899599 etang4@asu.edu
  * 
- * File: 	tcb.h
+ * File: 	threads.h
  *
- * Description:	This is the header file for the TCB_t that was provided to us. I made some small
- * 		adjustments (like adding a preprocessor guard) based off of my personal preferences.
- * 		Please contact the authors with any questions.
+ * Description:	This is the header file for the thread_test.c file, containing the definition of the
+ * 		global vaiable RunQ, as well as a few functions to manipulate the threads that we are
+ * 		creating.
+ *
+ * 		For any questions, please contact the authors.
  ****************************************************************************************************/
 #include <stdlib.h>
 #include "q.h"
@@ -16,7 +18,7 @@
 /*
  * Global Variables
  */
-TCB_t *RunQ;
+extern TCB_t *RunQ; //Defined in thread_test.c
 #define STACK_SIZE 8192
 
 void start_thread(void (*function)(void))
