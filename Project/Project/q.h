@@ -91,8 +91,13 @@ TCB_t *RotateQ(TCB_t *head){
 
 //Free an item's space for future use
 void FreeItem(TCB_t *item){
-	item->prev = NULL;
-	item->next = NULL;
+	/*
+	 * When freeing an item, we don't care if the item points to something or not, because
+	 * we will not be touching it ever again (and if we try, we will get a seg fault). The
+	 * pointers in the list need to change any pointers to the element prior to calling this
+	 * funciton (since we cannot make changes to the stackframe that this is called from),
+	 * and this fact (in my opinion) makes this function completely trivial.
+	 */
 	free(item);
 }
 
