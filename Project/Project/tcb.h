@@ -1,5 +1,15 @@
 #ifndef __TCB_H_
 #define __TCB_H_
+/*****************************************************************************************************
+ * Name: 	Easa El Sirgany 1001361972 eelsirga@asu.edu
+ * 		Eric Tang 1206899599 etang4@asu.edu
+ * 
+ * File: 	tcb.h
+ *
+ * Description:	This is the header file for the TCB_t that was provided to us. I made some small
+ * 		adjustments (like adding a preprocessor guard) based off of my personal preferences.
+ * 		Please contact the authors with any questions.
+ ****************************************************************************************************/
 
 #include <ucontext.h>
 
@@ -18,4 +28,4 @@ void init_TCB (TCB_t *tcb, void *function, void *stackP, int stack_size)
     makecontext(&tcb->context, function, 0);// context is now cooked
 }
 
-#endif
+#endif //__TCB_H_
