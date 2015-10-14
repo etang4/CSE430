@@ -20,7 +20,6 @@ TCB_t *NewItem(){
 	TCB_t *nnode;
 	nnode = (TCB_t *) malloc(sizeof(TCB_t));
 
-	//Apparently we are creating a new blank item . . .
 	memset(nnode, 0, sizeof(TCB_t));
 	return nnode;
 }
@@ -28,21 +27,19 @@ TCB_t *NewItem(){
 //creates a empty queue, pointed to by the variable head
 void InitQueue(TCB_t **head){
 	*head = (TCB_t *) malloc(sizeof(TCB_t));
-	memset(*head, '\0', sizeof(TCB_t));
+	memset(*head, 0, sizeof(TCB_t));
 }
 
 //Adds an item to the queue
 void AddQueue(TCB_t **head, TCB_t *item){
 	//If queue is empty.
-	if(!head){
+	if(!*head){
 		*head = item;
 	}
 	else{
-		(*head)->prev->next = item;
+		(*head)->next = item;
 		item->prev = (*head)->prev;
 	}
-	(*head)->prev = item;
-	item->next = *head;
 }
 
 // deletes an item from head and returns a pointer to the deleted item
@@ -52,15 +49,15 @@ TCB_t *DelQueue(TCB_t **head){
 	if(!head){
 		return NULL;
 	}
-	else if((*head)->next == *head){
+	else if(!(*head)->next){
 		deletedElement = *head;
 		*head = NULL;
 	}
 	else{
-		deletedElement = *head;
 		*head = (*head)->next;
-		(*head)->prev = deletedElement->prev;
-		deletedElement->prev->next = (*head);
+		deletedElement = *head;
+		deletedElement->next = NULL;
+		(*head)->prev = NULL;
 	}
 
 	return deletedElement;
@@ -68,7 +65,10 @@ TCB_t *DelQueue(TCB_t **head){
 
 //equivalent to AddQ(&head, DeleteQ(&head)), but is simpler to use and more efficient to implement
 void RotateQ(TCB_t **head){
-	*head = (*head)->next;
+	if(!(*head)->next)
+		*head = NULL;
+	else
+		*head = (*head)->next;
 }
 
 #endif //__Q_H_
