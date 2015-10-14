@@ -24,7 +24,8 @@ extern TCB_t *RunQ; //Defined in thread_test.c
 void start_thread(void (*function)(void))
 {
 	unsigned int *stack;
-	stack = (unsigned int *) malloc(sizeof(STACK_SIZE));
+	stack = (unsigned int *) malloc(STACK_SIZE);
+	memset(stack, '\0', STACK_SIZE);
 	TCB_t *nTCB;
 	nTCB = (TCB_t *) malloc(sizeof(TCB_t));
 	init_TCB(nTCB, function, stack, STACK_SIZE);
