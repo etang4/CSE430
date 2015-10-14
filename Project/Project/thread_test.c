@@ -41,7 +41,7 @@ void printgbw(){
 	}
 }
 
-int main(int argc, char *argv[]){
+int main(){
 	start_thread(printhw);
 	start_thread(printgbw);
 

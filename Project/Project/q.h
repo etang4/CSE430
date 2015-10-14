@@ -1,15 +1,3 @@
-/*
-Testing
-
-Write test routines that thoroughly test the queue implementation. Use multiple queues. Pay special attention to deleting the last element of a q. 
-Also make sure “RotateQ” is behaves properly (strange behavior of this routine means the insert/delete routines have bugs.)
-
-One suggested test case: Add three elements to queue Q1, and then add 3 more to queue Q2. Rotate each Q twice. 
-Delete elements from each q, one by one and print values till the queues are empty. Repeat the above test again.
-
-Further warning: Bugs in the Q routines have been the #1 cause for strange errors in the project, always.
-*/
-
 #ifndef __Q_H_
 #define __Q_H_
 /*****************************************************************************************************
@@ -38,22 +26,16 @@ TCB_t *NewItem(){
 }
 
 //creates a empty queue, pointed to by the variable head
-TCB_t *InitQueue(TCB_t **head){
-	if(!head){
-		head = (TCB_t **) malloc(sizeof(TCB_t*));
-		memset(head, 0, sizeof(TCB_t*));
-	}
-	else
-		puts("Head is not NULL!\nReturning head unchanged.");
-
-	return *head;
+void InitQueue(TCB_t **head){
+	*head = (TCB_t *) malloc(sizeof(TCB_t));
+	memset(*head, '\0', sizeof(TCB_t));
 }
 
 //Adds an item to the queue
-TCB_t *AddQueue(TCB_t **head, TCB_t *item){
+void AddQueue(TCB_t **head, TCB_t *item){
 	//If queue is empty.
 	if(!head){
-		head = &item;
+		*head = item;
 	}
 	else{
 		(*head)->prev->next = item;
@@ -61,22 +43,22 @@ TCB_t *AddQueue(TCB_t **head, TCB_t *item){
 	}
 	(*head)->prev = item;
 	item->next = *head;
-
-	return *head;
 }
 
 // deletes an item from head and returns a pointer to the deleted item
 TCB_t *DelQueue(TCB_t **head){
-	TCB_t *deletedElement = *head;
+	TCB_t *deletedElement;
 	//last element in queue
-	if (!head) {
-		//empty queue. Do nothing.
+	if(!head){
+		return NULL;
 	}
-	else if ((*head)->next = *head) {
-		head = NULL;
+	else if((*head)->next == *head){
+		deletedElement = *head;
+		*head = NULL;
 	}
-	else {
-		head = &((*head)->next);
+	else{
+		deletedElement = *head;
+		*head = (*head)->next;
 		(*head)->prev = deletedElement->prev;
 		deletedElement->prev->next = (*head);
 	}
@@ -85,21 +67,8 @@ TCB_t *DelQueue(TCB_t **head){
 }
 
 //equivalent to AddQ(&head, DeleteQ(&head)), but is simpler to use and more efficient to implement
-TCB_t *RotateQ(TCB_t **head){
-	head = &((*head)->next);
-	return *head;
-}
-
-//Free an item's space for future use
-void FreeItem(TCB_t *item){
-	/*
-	 * When freeing an item, we don't care if the item points to something or not, because
-	 * we will not be touching it ever again (and if we try, we will get a seg fault). The
-	 * pointers in the list need to change any pointers to the element prior to calling this
-	 * funciton (since we cannot make changes to the stackframe that this is called from),
-	 * and this fact (in my opinion) makes this function completely trivial.
-	 */
-	free(item);
+void RotateQ(TCB_t **head){
+	*head = (*head)->next;
 }
 
 #endif //__Q_H_
