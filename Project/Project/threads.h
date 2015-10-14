@@ -21,7 +21,7 @@
 extern TCB_t *RunQ; //Defined in thread_test.c
 #define STACK_SIZE 8192
 
-void start_thread(void (*function)(void))
+void start_thread(void (*function)())
 {
 	unsigned int *stack;
 	stack = (unsigned int *) malloc(STACK_SIZE);
