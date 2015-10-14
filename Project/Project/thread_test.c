@@ -21,7 +21,7 @@
 /*
  * Global variables
  */
-TCB_t *RunQ;
+TCB_t *RunQ = NULL;
 
 
 /*
