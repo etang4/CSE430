@@ -37,9 +37,11 @@ void AddQueue(TCB_t **head, TCB_t *item){
 		*head = item;
 	}
 	else{
-		(*head)->next = item;
+		(*head)->prev->next = item;
 		item->prev = (*head)->prev;
 	}
+	(*head)->prev = item;
+	item->next = *head;
 }
 
 // deletes an item from head and returns a pointer to the deleted item
@@ -49,15 +51,14 @@ TCB_t *DelQueue(TCB_t **head){
 	if(!head){
 		return NULL;
 	}
-	else if(!(*head)->next){
+	else if((*head)->next == *head){
 		deletedElement = *head;
-		*head = NULL;
 	}
 	else{
-		*head = (*head)->next;
 		deletedElement = *head;
-		deletedElement->next = NULL;
-		(*head)->prev = NULL;
+		*head = (*head)->next;
+		(*head)->prev = deletedElement->prev;
+		deletedElement->prev->next = *head;
 	}
 
 	return deletedElement;
@@ -65,9 +66,7 @@ TCB_t *DelQueue(TCB_t **head){
 
 //equivalent to AddQ(&head, DeleteQ(&head)), but is simpler to use and more efficient to implement
 void RotateQ(TCB_t **head){
-	if(!(*head)->next)
-		*head = NULL;
-	else
+	if(*head)
 		*head = (*head)->next;
 }
 

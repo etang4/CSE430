@@ -38,8 +38,9 @@ void run(){
 
 void yield(){
 	ucontext_t tmp;
+	getcontext(&tmp);
 	RotateQ(&RunQ);
-	swapcontext(&(RunQ->context), &tmp);
+	swapcontext(&tmp, &(RunQ->context));
 }
 
 #endif //__THREADS_H_
