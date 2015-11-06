@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "threads.h"
 #include "q.h" //This is why we use preprocessor guards
+#include "sem.h"
 
 /*
  * Macros
@@ -22,26 +23,42 @@
  * Global variables
  */
 TCB_t *RunQ = NULL;
+my_sem_t mutex;
+int n;
 
 
 /*
  * Functions
  */
-void printhw(){
+void func1(){
 	forever{
-		puts("Hello world!");
+		//Add something to print (from your notes:)
+		//f1(){
+		//	P(S);
+		//	n++;
+		//	print(n);
+		//	V(S);
+		//}
 		yield();
 	}
 }
 
-void printgbw(){
+void func2(){
 	forever{
-		puts("Goodbye cruel world!");
+		//Same here:
+		//f2(){
+		//	P(S);
+		//	n--;
+		//	print(n);
+		//	V(S);
+		//}
 		yield();
 	}
 }
 
 int main(){
+	initSem(mutex, 2);
+
 	start_thread(printhw);
 	start_thread(printgbw);
 

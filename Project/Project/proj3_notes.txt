@@ -1,0 +1,43 @@
+Notes for Project 3
+
+semaphore S -> has int count, queue Q
+initSem(S,V) //Initializes semaphore where S is seamphore and V is value. Function sets S.count = V
+
+P(S) and V(S) pseudocode
+========================
+
+P(S) = {
+	disable;
+	S.count--;
+	if(S.count < 0){
+		this = dequeue(RunQ);
+		Add(this,S.Q);
+		swap_context(this.context,run.context); //swap contexts
+	}
+	enable;
+}
+
+V(S) = {
+	S.count++;
+	if(S.count <= 0){
+		this = Dequeue(S.Q);
+		addQ(RunQ,this.context);
+		yield();
+	}
+}
+
+Good way to test the semaphore
+==============================
+f1(){
+	P(S);
+	n++;
+	print(n);
+	V(S);
+}
+
+f2(){
+	P(S);
+	n--;
+	print(n);
+	V(S);
+}
