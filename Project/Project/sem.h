@@ -18,7 +18,7 @@ typedef struct my_sem_t {
      TCB_t *Q;
 } my_sem_t;
 
-void initSem(my_sem_t *S, int val){
+void InitSem(my_sem_t *S, int val){
 	memset(S, 0, sizeof(my_sem_t)); //Just in case (I'm paranoid)
 	S->count = val;
 }
@@ -28,6 +28,7 @@ void P(my_sem_t *S){
 	if(S->count < 0){
 		TCB_t *tmp = DelQueue(&RunQ);
 		AddQueue(&(S->Q), tmp);
+		swapcontext(&(tmp->context), &(RunQ->context));		
 	}
 }
 
@@ -35,7 +36,7 @@ void V(my_sem_t *S){
 	S->count++;
 	if(S->count < 1){
 		TCB_t *tmp = DelQueue(&(S->Q));
-		AddQueue(&RunQ, S->Q);
+		AddQueue(&RunQ, tmp);
 		yield();
 	}
 }

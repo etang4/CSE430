@@ -33,12 +33,10 @@ int n;
 void func1(){
 	forever{
 		//Add something to print (from your notes:)
-		//f1(){
-		//	P(S);
-		//	n++;
-		//	print(n);
-		//	V(S);
-		//}
+			P(&mutex);
+			n++;
+			printf("%d",n);
+			V(&mutex);
 		yield();
 	}
 }
@@ -46,21 +44,21 @@ void func1(){
 void func2(){
 	forever{
 		//Same here:
-		//f2(){
-		//	P(S);
-		//	n--;
-		//	print(n);
-		//	V(S);
-		//}
+			P(&mutex);
+			n--;
+			printf("%d",n);	
+			V(&mutex);
 		yield();
 	}
 }
 
 int main(){
-	initSem(mutex, 2);
-
-	start_thread(printhw);
-	start_thread(printgbw);
+	InitSem(&mutex, 2);
+	n = 0;
+	start_thread(func1);
+	start_thread(func2);
 
 	run();
+
+	return -1;
 }
