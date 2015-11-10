@@ -6,9 +6,10 @@
  * 
  * File: 	sem.h
  *
- * Description:	
+ * Description:	This is the header file for the seamphores modified utilize the queue 
+ created in the previous project.
  ****************************************************************************************************/
-#include "tcb.h" //For TCB_t
+#include "TCB.h" //For TCB_t
 #include "threads.h"
 #include "q.h"
 
@@ -20,7 +21,7 @@ typedef struct my_sem_t {
 } my_sem_t;
 
 void InitSem(my_sem_t *S, int val){
-	memset(S, 0, sizeof(my_sem_t)); //Just in case (I'm paranoid)
+	memset(S, 0, sizeof(my_sem_t)); //Initialize Q
 	S->count = val;
 }
 

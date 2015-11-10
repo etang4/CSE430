@@ -10,7 +10,7 @@
  * 		adjustments (like adding a preprocessor guard) based off of my personal preferences.
  * 		Please contact the authors with any questions.
  ****************************************************************************************************/
-#include "tcb.h"
+#include "TCB.h"
 
 /*
  * Function definitions
