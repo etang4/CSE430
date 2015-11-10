@@ -10,6 +10,7 @@
  ****************************************************************************************************/
 #include "tcb.h" //For TCB_t
 #include "threads.h"
+#include "q.h"
 
 extern TCB_t *RunQ; //Defined in thread_test.c
 
@@ -27,18 +28,18 @@ void P(my_sem_t *S){
 	S->count--;
 	if(S->count < 0){
 		TCB_t *tmp = DelQueue(&RunQ);
-		AddQueue(&(S->Q), tmp);
+		AddQueue(&(S->Q),tmp);
 		swapcontext(&(tmp->context), &(RunQ->context));		
 	}
 }
 
 void V(my_sem_t *S){
 	S->count++;
-	if(S->count < 1){
+	if(S->count <= 0){
 		TCB_t *tmp = DelQueue(&(S->Q));
 		AddQueue(&RunQ, tmp);
-		yield();	
 	}
+	yield();
 }
 
 #endif //__SEM_H_

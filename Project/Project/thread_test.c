@@ -29,8 +29,8 @@ my_sem_t mutex;
 my_sem_t full;
 my_sem_t empty;
 int myBuffer[MAX_SIZE];
-int inputIndex;
-int outputIndex;
+unsigned int inputIndex;
+unsigned int outputIndex;
 
 /*
  * Functions
@@ -65,56 +65,48 @@ void func2(){
 void producerA(){
 	forever{	
 		P(&full);
-		P(&mutex);
-		printf("Producer A inserts 2 to buffer\n");
 		myBuffer[inputIndex] = 2;
-		printBuffer();	
 		inputIndex = (inputIndex + 1) % MAX_SIZE;
-		sleep(2);
-		V(&mutex);
+		printf("Producer A inserts 2 to buffer\n");
+		printBuffer();	
+		sleep(1);
 		V(&empty);	
 	}
 }
 
 void producerB(){
 	forever{
-		P(&full);
-		P(&mutex);
-		printf("Producer B inserts 3 to buffer\n");
+		P(&empty);
 		myBuffer[inputIndex] = 3;
-		printBuffer();	
 		inputIndex = (inputIndex + 1) % MAX_SIZE;
-		sleep(2);
-		V(&mutex);
-		V(&empty);
+		printf("Producer B inserts 3 to buffer\n");
+		printBuffer();	
+		sleep(1);
+		V(&full);
 	}
 }
 
 void consumerA(){
 	forever{
 		P(&empty);
-		P(&mutex);
-		printf("Consumer A consumes buffer data\n");
 		myBuffer[outputIndex] = 0;
 		outputIndex = (outputIndex + 1) % MAX_SIZE;
+		printf("Consumer A consumes buffer data\n");
 		printBuffer();	
-		sleep(2);
-		V(&mutex);
+		sleep(1);
 		V(&full); 
 	}
 }
 
 void consumerB(){
 	forever{
-		P(&empty);
-		P(&mutex);
-		printf("Consumer B consumes buffer data\n");
+		P(&full);
 		myBuffer[outputIndex] = 0;
 		outputIndex = (outputIndex + 1) % MAX_SIZE;
+		printf("Consumer B consumes buffer data\n");
 		printBuffer();	
-		sleep(2);
-		V(&mutex);
-		V(&full); 
+		sleep(1);
+		V(&empty); 
 	}
 }
 
@@ -126,6 +118,7 @@ void printBuffer(){
 	}
 	printf(" ]\n");
 }
+
 int main(){
 	InitSem(&empty, MAX_SIZE);
 	InitSem(&full, 0);
@@ -133,6 +126,11 @@ int main(){
 	inputIndex = 0;
 	outputIndex = 0;
 	
+	int i;	
+	for(i = 0; i < MAX_SIZE;i++){
+		myBuffer[i] = 1;
+	}	
+
 	start_thread(consumerA);
 	start_thread(consumerB);
 
