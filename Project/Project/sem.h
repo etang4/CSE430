@@ -37,7 +37,7 @@ void V(my_sem_t *S){
 	if(S->count < 1){
 		TCB_t *tmp = DelQueue(&(S->Q));
 		AddQueue(&RunQ, tmp);
-		yield();
+		yield();	
 	}
 }
 
