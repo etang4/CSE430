@@ -37,10 +37,9 @@ void run(){
 }
 
 void yield(){
-	ucontext_t tmp;
-	getcontext(&tmp);
+	TCB_t* tmp = RunQ;
 	RotateQ(&RunQ);
-	swapcontext(&tmp, &(RunQ->context));
+	swapcontext(&(tmp->context), &(RunQ->context));
 }
 
 #endif //__THREADS_H_

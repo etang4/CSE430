@@ -12,6 +12,7 @@
 #include "TCB.h" //For TCB_t
 #include "threads.h"
 #include "q.h"
+#include "unistd.h"
 
 extern TCB_t *RunQ; //Defined in thread_test.c
 
@@ -21,7 +22,7 @@ typedef struct my_sem_t {
 } my_sem_t;
 
 void InitSem(my_sem_t *S, int val){
-	memset(S, 0, sizeof(my_sem_t)); //Initialize Q
+	S->Q = NULL;	
 	S->count = val;
 }
 
@@ -37,8 +38,7 @@ void P(my_sem_t *S){
 void V(my_sem_t *S){
 	S->count++;
 	if(S->count <= 0){
-		TCB_t *tmp = DelQueue(&(S->Q));
-		AddQueue(&RunQ, tmp);
+		AddQueue(&RunQ, DelQueue(&(S->Q)));
 	}
 	yield();
 }
